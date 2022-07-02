@@ -1,0 +1,65 @@
+"TonUtil.fif" include
+"Asm.fif" include
+{ $# _next_arg @ - 1+
+  { cmdline_getarg swap } over times tuple
+} : cmdline_get_rest
+{ dup ."Loading public key from file " type cr
+  file>B dup Blen 32 <> abort"Public key must be exactly 32 bytes long"
+} : load_pubkey
+{ include } : mk_contract_code
+{
+  explode dictnew swap
+  {
+    swap load_pubkey 256 B>u@ dup
+    ."Eligible pubkey: " . cr
+    swap
+    <b b> <s -rot 256
+    udict!
+    0= abort"Error: Duplicate keys supplied"
+  } swap times
+} : mk_keys_set
+{ <b
+    0 32 u,
+    rot 32 u,
+    swap dict,
+    null dict,
+    null dict,
+  b>
+} : mk_initial_storage
+{ mk_keys_set
+  mk_initial_storage
+  ."Making contract code" cr
+  swap mk_contract_code
+  <b b{0011} s, swap ref, swap ref, null dict, b>
+} : mk_state_init
+cmdline_getarg constant multisig_contract_file
+cmdline_getarg_int constant wc
+cmdline_getarg constant wallet_base
+cmdline_getarg_int constant min_sigs_k
+cmdline_get_rest constant eligible_signers_pks
+multisig_contract_file
+min_sigs_k 
+eligible_signers_pks
+mk_state_init
+dup constant state_init
+dup ."StateInit: " <s csr. cr
+dup hash wc swap 2dup 2constant msig_addr
+."new wallet address = " 2dup .addr cr
+."Non-bounceable address (for init): " 2dup 7 .Addr cr
+."Bounceable address (for later access): " 2dup 6 .Addr cr
+wallet_base +".addr" save-address-verbose cr
+<b null dict, b> constant body
+<b
+  b{10} s,   
+  b{00} s,   
+  b{100} s,  
+  msig_addr addr, 
+  b{0000} s,
+  b{10} s,   
+  state_init <s s,
+  b{0} s,    
+  body <s s,
+b>
+2 boc+>B dup Bx. cr
+wallet_base +"-query.boc" tuck B>file
+."Saved multisig wallet creating query to file " type cr

@@ -1,0 +1,10 @@
+"../lib/ContractMessages.fif" include
+"TonUtil.fif" include
+cmdline_getarg constant message_file
+cmdline_getarg_int constant expiration
+cmdline_getarg_int constant nonce
+message_file +".boc" file>B B>boc constant message_object
+nonce expiration message_object msig_wrap_message
+2 boc+>B message_file +".msig.boc"
+dup ."Writing wrapped message to " type cr
+B>file

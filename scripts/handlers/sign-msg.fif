@@ -1,0 +1,31 @@
+"TonUtil.fif" include
+cmdline_getarg constant wrapped_message_file
+cmdline_getarg constant msig_addr_str
+cmdline_getarg load-keypair
+  constant privkey
+  constant pubkey
+msig_addr_str true parse-load-address
+constant bounce
+2constant msig_addr
+wrapped_message_file +".msig.boc" file>B B>boc
+<s dict@+ ref@+ swap s>
+  constant sign_msg_body
+  constant sign_dict
+."Signing message: " sign_msg_body <s csr. cr
+."with key: " pubkey Bx. cr cr
+<b
+  <b b{100} s, msig_addr addr, b> <s s,
+  sign_msg_body ref,
+b>
+hashu privkey ed25519_sign_uint constant signature
+<b signature B, b> <s
+pubkey 256 B>u@ sign_dict 256
+udict!+
+0= abort"This key has already signed the message"
+constant sign_dict'
+<b
+  sign_dict' dict,
+  sign_msg_body ref,
+b>
+2 boc+>B wrapped_message_file +".msig.boc" B>file
+."Saved to file " wrapped_message_file +".msig.boc" type cr

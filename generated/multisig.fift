@@ -1,0 +1,559 @@
+PROGRAM{
+DECLPROC dictMerge_cf0704_025476
+DECLPROC dictRemMin_127a34_ca7b2f
+DECLPROC dictRemMin_9c04e2_79ddb5
+DECLPROC dictRemMin_c65bb9_f510af
+DECLPROC dictRemMin_c9f57c_97918e
+DECLPROC dictSize_e253a9_653d1b
+DECLPROC extendOrder_8d641d_7e67e8
+DECLPROC filterValidSignatures_02f883_067ad0
+DECLPROC garbageCollectOrders_7e67e8_7e67e8
+DECLPROC recvSignMsg_7a6fe2_77b32c
+dictMerge_cf0704_025476 PROC:<{
+  s0 PUSH
+  DICTEMPTY
+  IF:<{
+    DROP
+    s0 PUSH
+    2 ROLLREV
+    dictSize_e253a9_653d1b CALL
+    IF:<{
+      DROP
+      1 INT
+    }>ELSE<{
+      DROP
+      0 INT
+    }>
+  }>ELSE<{
+    s0 PUSH
+    s3 PUSH
+    SWAP
+    dictSize_e253a9_653d1b CALL
+    IF:<{
+      2 ROLL
+      dictRemMin_127a34_ca7b2f CALL
+      WHILE:<{
+        DUP
+      }>DO<{
+        IF:<{
+          SWAP
+          NEWC
+          ENDC
+          CTOS
+          SWAP
+          DROP
+          SWAP
+          s0 PUSH
+          s3 PUSH
+          256 INT
+          DICTUGET
+          IF:<{
+            DROP
+            DROP
+            DROP
+          }>ELSE<{
+            4 ROLL
+            256 INT
+            DICTUSET
+            2 ROLL
+            INC
+            s0 PUSH
+            s4 PUSH
+            GEQ
+            IF:<{
+              2 ROLL
+              DROP
+              NEWDICT
+            }>ELSE<{
+              2 ROLL
+            }>
+          }>
+        }>ELSE<{
+        }>
+        dictRemMin_127a34_ca7b2f CALL
+      }>
+      IF:<{
+        DROP
+        DROP
+      }>ELSE<{
+      }>
+      DROP
+      2 ROLL
+      GEQ
+      IF:<{
+        DROP
+        0 INT
+      }>ELSE<{
+        1 INT
+      }>
+    }>ELSE<{
+      DROP
+      DROP
+      DROP
+      0 INT
+    }>
+  }>
+}>
+dictRemMin_127a34_ca7b2f PROC:<{
+  256 INT
+  DICTREMMIN
+  IF:<{
+    256 LDU
+    DROP
+   TRUE }>ELSE<{ FALSE }>
+}>
+dictRemMin_9c04e2_79ddb5 PROC:<{
+  256 INT
+  DICTREMMIN
+  IF:<{
+    256 LDU
+    DROP
+   TRUE }>ELSE<{ FALSE }>
+}>
+dictRemMin_c65bb9_f510af PROC:<{
+  64 INT
+  DICTREMMIN
+  IF:<{
+    64 LDU
+    DROP
+   TRUE }>ELSE<{ FALSE }>
+}>
+dictRemMin_c9f57c_97918e PROC:<{
+  256 INT
+  DICTREMMIN
+  IF:<{
+    256 LDU
+    DROP
+   TRUE }>ELSE<{ FALSE }>
+}>
+dictSize_e253a9_653d1b PROC:<{
+  0 INT
+  SWAP
+  dictRemMin_127a34_ca7b2f CALL
+  WHILE:<{
+    DUP
+  }>DO<{
+    IF:<{
+      DROP
+      DROP
+      SWAP
+      INC
+      s0 PUSH
+      s3 PUSH
+      GEQ
+      IF:<{
+        SWAP
+        DROP
+        NEWDICT
+      }>ELSE<{
+        SWAP
+      }>
+    }>ELSE<{
+    }>
+    dictRemMin_127a34_ca7b2f CALL
+  }>
+  IF:<{
+    DROP
+    DROP
+  }>ELSE<{
+  }>
+  DROP
+  s0 PUSH
+  2 ROLLREV
+  GREATER
+  IF:<{
+    1 INT
+  }>ELSE<{
+    DROP
+    0 INT
+  }>
+}>
+extendOrder_8d641d_7e67e8 PROC:<{
+  6 ROLLREV
+  6 ROLLREV
+  s2 PUSH
+  s5 PUSH
+  256 INT
+  DICTUGET
+  IF:<{
+    LDDICT
+    DROP
+   TRUE }>ELSE<{ FALSE }>
+  IF:<{
+    FALSE
+  }>ELSE<{
+    NEWDICT
+    TRUE
+  }>
+  3 ROLLREV
+  2 ROLL
+  dictMerge_cf0704_025476 CALL
+  IF:<{
+    4 ROLL
+    s3 PUSH
+    2 ROLL
+    3 0 REVERSE
+    2 ROLL
+    NEWC
+    STDICT
+    ENDC
+    CTOS
+    2 ROLLREV
+    256 INT
+    DICTUSET
+    5 ROLLREV
+    IF:<{
+      SWAP
+      CTOS
+      32 LDU
+      32 LDU
+      LDREF
+      ENDS
+      DROP
+      s1 POP
+      2 ROLL
+      SWAP
+      32 INT
+      LSHIFT
+      ADD
+      2 ROLL
+      2 ROLL
+      NEWC
+      256 STU
+      ENDC
+      CTOS
+      2 ROLLREV
+      64 INT
+      DICTUSET
+    }>ELSE<{
+      DROP
+      DROP
+      DROP
+    }>
+  }>ELSE<{
+    SWAP
+    3 ROLL
+    256 INT
+    DICTUDEL
+    DROP
+    2 ROLL
+    CTOS
+    32 LDU
+    32 LDU
+    LDREF
+    ENDS
+    0 INT
+    SENDRAWMSG
+    s1 POP
+    2 ROLLREV
+    4 ROLLREV
+    IF:<{
+      DROP
+      DROP
+    }>ELSE<{
+      32 INT
+      LSHIFT
+      ADD
+      SWAP
+      64 INT
+      DICTUDEL
+      DROP
+    }>
+  }>
+}>
+filterValidSignatures_02f883_067ad0 PROC:<{
+  NEWDICT
+  SWAP
+  dictRemMin_9c04e2_79ddb5 CALL
+  WHILE:<{
+    DUP
+  }>DO<{
+    IF:<{
+      SWAP
+      512 INT
+      LDSLICEX
+      DROP
+      SWAP
+      s0 PUSH
+      s6 PUSH
+      256 INT
+      DICTUGET
+      IF:<{
+        DROP
+        TRUE
+      }>ELSE<{
+        FALSE
+      }>
+      IF:<{
+        s0 PUSH
+        2 ROLLREV
+        s5 PUSH
+        2 ROLLREV
+        CHKSIGNU
+        34 THROWIFNOT
+        ACCEPT
+        2 ROLL
+        NEWC
+        ENDC
+        CTOS
+        2 ROLLREV
+        256 INT
+        DICTUSET
+        SWAP
+      }>ELSE<{
+        DROP
+        DROP
+      }>
+    }>ELSE<{  
+    }>
+    dictRemMin_9c04e2_79ddb5 CALL
+  }>
+  IF:<{
+    DROP
+    DROP
+  }>ELSE<{
+  }>
+  DROP
+  s1 POP
+  s1 POP
+}>
+garbageCollectOrders_7e67e8_7e67e8 PROC:<{
+  NOW
+  SWAP
+  s0 PUSH
+  dictRemMin_c65bb9_f510af CALL
+  WHILE:<{
+    DUP
+  }>DO<{
+    IF:<{
+      SWAP
+      256 LDU
+      DROP
+      SWAP
+      32 INT
+      RSHIFT
+      s4 PUSH
+      LESS
+      IF:<{
+        4 ROLL
+        256 INT
+        DICTUDEL
+        DROP
+        3 ROLLREV
+        s1 POP
+        s0 PUSH
+      }>ELSE<{
+        DROP
+        DROP
+        NEWDICT
+      }>
+    }>ELSE<{
+    }>
+    dictRemMin_c65bb9_f510af CALL
+  }>
+  IF:<{
+    DROP
+    DROP
+  }>ELSE<{
+  }>
+  DROP
+  s1 POP
+}>
+recvSignMsg_7a6fe2_77b32c PROC:<{
+  5 ROLL
+  LDDICT
+  LDREF
+  ENDS
+  s0 PUSH
+  CTOS
+  32 LDU
+  32 LDU
+  LDREF
+  ENDS
+  3 0 REVERSE
+  s9 PUSH
+  EQUAL
+  32 THROWIFNOT
+  s0 PUSH
+  NOW
+  GREATER
+  33 THROWIFNOT
+  8 ROLLREV
+  s1 PUSH
+  MYADDR
+  NEWC
+  STSLICE
+  STREF
+  ENDC
+  HASHCU
+  s6 PUSH
+  SWAP
+  4 ROLL
+  filterValidSignatures_02f883_067ad0 CALL
+  1 ROLL
+  8 ROLL
+  NEWC
+  32 STU
+  STREF
+  ENDC
+  HASHCU
+  SWAP
+  s6 PUSH
+  4 ROLL
+  s8 PUSH
+  extendOrder_8d641d_7e67e8 CALL
+  garbageCollectOrders_7e67e8_7e67e8 CALL
+  5 0 REVERSE
+  INC
+  NEWC
+  32 STU
+  32 STU
+  STDICT
+  STDICT
+  STDICT
+  ENDC
+  POPROOT
+}>
+DECLPROC recv_external
+recv_external PROC:<{
+  PUSHROOT
+  CTOS
+  32 LDU
+  32 LDU
+  LDDICT
+  LDDICT
+  LDDICT
+  ENDS
+  s4 PUSH
+  0 INT
+  EQUAL
+  IF:<{
+    ACCEPT
+    4 ROLL
+    DROP
+    4 0 REVERSE
+    1 INT
+    NEWC
+    32 STU
+    32 STU
+    STDICT
+    STDICT
+    STDICT
+    ENDC
+    POPROOT
+    DROP
+  }>ELSE<{
+    recvSignMsg_7a6fe2_77b32c CALL
+  }>
+}>
+DECLPROC recv_internal
+recv_internal PROC:<{
+  DROP
+}>
+88857 DECLMETHOD allOrders
+allOrders PROC:<{
+  PUSHROOT
+  CTOS
+  32 LDU
+  32 LDU
+  LDDICT
+  LDDICT
+  LDDICT
+  ENDS
+  DROP
+  3 ROLLREV
+  DROP
+  DROP
+  DROP
+}>
+112753 DECLMETHOD ordersByKey
+ordersByKey PROC:<{
+  // Get orders by key
+  PUSHROOT
+  CTOS
+  32 LDU
+  32 LDU
+  LDDICT
+  LDDICT
+  LDDICT
+  ENDS
+  DROP
+  3 ROLLREV
+  DROP
+  DROP
+  DROP
+  NEWDICT
+  SWAP
+  dictRemMin_c9f57c_97918e CALL
+  WHILE:<{
+    DUP
+  }>DO<{
+    IF:<{
+      SWAP
+      LDDICT
+      DROP
+      s0 PUSH
+      s6 PUSH
+      s6 PUSH
+      3 0 REVERSE
+      256 INT
+      DICTUGET
+      IF:<{
+        DROP
+        TRUE
+      }>ELSE<{
+        FALSE
+      }>
+      EQUAL
+      IF:<{
+        2 ROLL
+        3 ROLL
+        3 ROLLREV
+        3 ROLLREV
+        NEWC
+        STDICT
+        ENDC
+        CTOS
+        3 0 REVERSE
+        2 ROLL
+        NEWC
+        STDICT
+        ENDC
+        CTOS
+        2 ROLLREV
+        256 INT
+        DICTUSET
+        SWAP
+      }>ELSE<{
+        DROP
+        DROP
+      }>
+    }>ELSE<{
+    }>
+    dictRemMin_c9f57c_97918e CALL
+  }>
+  IF:<{
+    DROP
+    DROP
+  }>ELSE<{
+  }>
+  DROP
+  s1 POP
+  s1 POP
+}>
+85143 DECLMETHOD seqno
+seqno PROC:<{
+  PUSHROOT
+  CTOS
+  32 LDU
+  32 LDU
+  LDDICT
+  LDDICT
+  LDDICT
+  ENDS
+  DROP
+  DROP
+  DROP
+  DROP
+}>
+}END>c

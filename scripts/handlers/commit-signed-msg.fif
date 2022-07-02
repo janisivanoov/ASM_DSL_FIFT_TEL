@@ -1,0 +1,19 @@
+"TonUtil.fif" include
+cmdline_getarg constant msig_addr_str
+cmdline_getarg constant signed_message_file
+signed_message_file +".msig.boc" file>B B>boc constant signed_message
+msig_addr_str true parse-load-address
+constant bounce
+2constant msig_addr
+<b
+  b{10} s,   
+  b{00} s,   
+  b{100} s,  
+  msig_addr addr, 
+  b{0000} s, 
+  b{0} s,    
+  b{0} s,    
+  signed_message <s s,
+b>
+2 boc+>B signed_message_file +".msig-query.boc" B>file
+."Saved to file " signed_message_file +".msig-query.boc" type cr
