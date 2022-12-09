@@ -93,3 +93,4 @@
 { "handlers/wrap-msg.fif" include } : cli_wrap-msg
 { "handlers/sign-msg.fif" include } : cli_sign-msg
 { "handlers/commit-signed-msg.fif" include } : cli_commit-signed-msg
+
